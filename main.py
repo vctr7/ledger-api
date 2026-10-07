@@ -10,6 +10,11 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(title="가계부 API")
 
 
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+
 @app.post("/accounts", response_model=schemas.AccountRead, status_code=201)
 def create_account(payload: schemas.AccountCreate, db: Session = Depends(get_db)):
     account = models.Account(name=payload.name, balance=payload.balance)
